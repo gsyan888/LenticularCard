@@ -2,9 +2,9 @@
 
 LenticularCard will create a 3D model from 20 image files (crop from two photos).
 
-This is code for OpenSCAD (http://www.openscad.org/)
+This is code for [OpenSCAD](http://www.openscad.org/)
 
-#Usage of "LenticularCard generator":
+# Usage of "LenticularCard generator":
 
 - Step 1) Resize two photos to thie size 100x100 (pixels) and save to PNG format.
 
@@ -13,11 +13,11 @@ This is code for OpenSCAD (http://www.openscad.org/)
 - Step 3) Combine two photos with LenticularCard to generate lenticular card model.
 
 
-#LenticularCard Example output:
+# LenticularCard Example output:
 
-Cat and Dog lenticular STL (https://gsyan888.github.com/LenticularCard/demo/lenticular-card-dog-cat-5x50-0_8.stl)
+Cat and Dog lenticular [STL file](https://raw.githubusercontent.com/gsyan888/LenticularCard/master/demo/lenticular-card-dog-cat-5x50-0_8.stl)
 
-![Cat](https://gsyan888.github.com/LenticularCard/demo/3dp-lenticular-card-1.jpg)
+![Cat](https://raw.githubusercontent.com/gsyan888/LenticularCard/master/demo/3dp-lenticular-card-1.jpg)
 
-![Dog](https://gsyan888.github.com/LenticularCard/demo/3dp-lenticular-card-2.jpg)
+![Dog](https://raw.githubusercontent.com/gsyan888/LenticularCard/master/demo/3dp-lenticular-card-2.jpg)
 
