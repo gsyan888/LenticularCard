@@ -2,7 +2,7 @@
 
 LenticularCard will create a 3D model from 20 image files (crop from two photos).
 
-This is code for [OpenSCAD](http://www.openscad.org/)
+This is code for OpenSCAD (http://www.openscad.org/)
 
 # Usage of "LenticularCard generator":
 
@@ -21,5 +21,6 @@ Cat and Dog LenticularCard [example STL file](https://github.com/gsyan888/Lentic
 
 ![Dog](https://raw.githubusercontent.com/gsyan888/LenticularCard/master/demo/3dp-lenticular-card-2.jpg)
 
+Video :
 [![LenticularCard Demo Video](https://img.youtube.com/vi/pbErhwVeajk/0.jpg)](https://www.youtube.com/watch?v=pbErhwVeajk)
 
