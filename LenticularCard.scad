@@ -10,25 +10,48 @@
 //
 // 	ex.  magick + dos command (crop to 10x100, 10 parts) 
 //			replace picture-1.png & picture-2.png  with your filenames
-//			output filename numbers 0,1,2,3 ... 9
+//			output filename numbers 0,10,20,30 ... 90
 //
-//			for /L %a in (0,1,9) do (magick convert -crop 10x100+%a0+0 picture-1.png parts-1-%a.png )
-//			for /L %a in (0,1,9) do (magick convert -crop 10x100+%a0+0 picture-2.png parts-1-%a.png )
+//			for /L %a in (0,10,90) do (magick convert -crop 10x100+%a+0 picture-1.png parts-1-%a.png )
+//			for /L %a in (0,10,90) do (magick convert -crop 10x100+%a+0 picture-2.png parts-1-%a.png )
 //
 // 	ex.  magick + dos command (crop to 5x100, 20 parts)
 //			replace picture-1.png & picture-2.png  with your filenames
-//			output filename numbers 00, 05,10,15 ... 95
+//			output filename numbers 0, 5,10,15 ... 95
 //
-//			for /L %a in (0,1,9) do (magick convert -crop 5x100+%a0+0 picture-1.png parts-1-%a0.png )
-//			for /L %a in (0,1,9) do (magick convert -crop 5x100+%a5+0 picture-1.png parts-1-%a5.png )
-//			for /L %a in (0,1,9) do (magick convert -crop 5x100+%a0+0 picture-2.png parts-2-%a0.png )
-//			for /L %a in (0,1,9) do (magick convert -crop 5x100+%a5+0 picture-2.png parts-2-%a5.png )
+//			for /L %a in (0,5,95) do (magick convert -crop 5x100+%a+0 picture-1.png parts-1-%a0.png )
+//			for /L %a in (0,5,95) do (magick convert -crop 5x100+%a+0 picture-2.png parts-2-%a0.png )
 //
 // image filename format : image1_filename_prefix + filename_numbers + filename_postfix
-// 		ex. parts-1-0.png , parts-1-1.png, parts-1-2.png ... parts-1-9.png
+// 		ex. parts-1-0.png , parts-1-10.png, parts-1-20.png ... parts-1-90.png
 //
 
 //* [Global] */ 
+
+//
+// image size setting
+//
+image_width = 100; //the width of orginal image in pixel
+image_height = 100; //the height of orignal image in pixel
+
+parts_total_number = 10;
+
+prism_orientation = 1; // [0:Horizontal, 1:Vertical]
+
+//
+// output options
+//
+imageSurfaceInvert = false; //Inverts how the color values of imported images are translated into height values. 
+
+export_width = 50;  // x size : unit mm
+export_depth = 50; // y size : unit mm
+
+//the height of image relative to prism plane
+export_image_max_height = 0.8; // z size : pixel max height : unit mm
+
+base_size_z = 0.8; //the height of base , unit : mm
+
+
 
 //
 // image files setting
@@ -37,29 +60,24 @@
 image1_filename_prefix = "images/parts-1-";	//filename prefix of the 1st photo
 image2_filename_prefix = "images/parts-2-";	//filename prefix of the 2nd photo
 
-filename_numbers = [0,1,2,3,4,5,6,7,8,9]; //when crop to size 10x100
-//filename_numbers = ["00","05",10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95]; // when crop to size 5x100  
+//filename_numbers
+// the numbers are the cropped location of x or y 
+// ex.  0,10,20,....90 
+//
+filename_numbers = [
+    for(i=[0:parts_total_number-1]) 
+        let(
+            offset=(prism_orientation == 1) ?  image_width/parts_total_number : image_height/parts_total_number,
+            start_number=i*offset
+        ) 
+        start_number
+    ];
+//filename_numbers = [ for(i=[0:9]) let() i];
+//filename_numbers = [0,10,20,30,40,50,60,70,80,90]; //when crop to size 10x100
+//filename_numbers = [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95]; // when crop to size 5x100  
 
 filename_postfix = ".png"; //filename postfix
 
-//image_width = 100; //px
-//image_height = 100; //px
-
-parts_total_number = 10;
-
-prism_orientation = 1; // [0:Horizontal, 1:Vertical]
-
-// output options
-
-imageSurfaceInvert = false; //Inverts how the color values of imported images are translated into height values. 
-
-export_width = 50;  // x size : unit mm
-export_depth = 50; // y size : unit mm
-
-base_size_z = 0.8; //the height of base , unit : mm
-
-//the height of image relative to prism plane
-export_image_max_height = 0.8; // z size : pixel max height : unit mm
 
 
 
@@ -69,8 +87,9 @@ image_size_x = (prism_orientation == 1) ? export_width/parts_total_number : expo
 image_size_y = (prism_orientation == 1 )? export_depth : export_depth/parts_total_number; 
 image_size_z = export_image_max_height;  //
 
-image_scale_x = (prism_orientation == 1) ? 0.1 : 0.01;
-image_scale_y = (prism_orientation == 1) ? 0.01 : 0.1;
+
+image_scale_x = (prism_orientation == 1) ? parts_total_number/image_width : 1/image_width;
+image_scale_y = (prism_orientation == 1) ? 1/image_height : parts_total_number/image_height;
 
 prism_angle = 60;
 
